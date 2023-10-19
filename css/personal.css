@@ -1,0 +1,333 @@
+/* CSS Document */
+
+body {
+	margin-top: 0px;
+	scrollbar-base-color:#DDDDDD;
+	}
+
+#menuv {
+        width: 160px;
+        font-family: Tahoma, Verdana;
+		font-size: 11px;
+		font-weight: bold;
+		color: #36C;
+}
+
+#menuv ul, li {
+        list-style-type: none;
+}
+
+#menuv ul {
+        margin: 0;
+        padding: 0;
+}
+
+#menuv li {
+        color: #036;
+		border-width: 1px 1px 1px 1px;
+}
+
+#menuv a {
+        text-decoration: none;
+        color: #036;
+        background: #ffffff;
+        display: block;
+        padding: 3px 6px;
+        width: 160px;
+		border: 1px dotted #cccccc;
+        border-width: 0px 0px 1px 0px;
+}
+
+#menuv a:hover {
+        background: #DBEBF6;
+		border: 1px solid #ACCFE8;
+        border-width: 1px 1px 1px 1px;
+}
+
+.textonormal {
+	font-family: Tahoma, Calibri, calibri eot, "Segoe UI", Tahoma;
+	font-size: 11px;
+	font-weight: normal;
+	color: #333333;
+	text-indent: 4px;	
+	
+}
+.textonegrita {
+	font-family: Tahoma, Calibri, calibri eot, "Segoe UI";
+	font-size: 11px;
+	font-weight: bold;
+	color: #36C;
+	text-indent: 4px;	
+	
+}
+
+.firma_negrita {
+	font-family: Tahoma, Calibri, calibri eot, "Segoe UI";
+	font-size: 12px;
+	font-weight: bold;
+	color:#000;		
+}
+.firma_normal {
+	font-family: Tahoma, Calibri, calibri eot, "Segoe UI";
+	font-size: 11px;
+	font-weight: normal;
+	color:#333;
+}
+
+
+.edicion {
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: normal;
+	color: #333;
+	text-align: left;
+	padding: 2px;	
+}
+.textoform {
+	font-family: Arial;
+	font-size: 11px;
+	font-weight: bold;
+	color: #036;
+}
+
+.texto_titular {
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333333;
+}
+.punteado {
+	font-size: 1px;
+	font-weight: normal;
+	color: #E1EBF7;
+	border-top: thin dotted #E1EBF7;
+	border-right: thin #E1EBF7;
+	border-bottom: thin #E1EBF7;
+	border-left: thin #E1EBF7;
+	height: 1px;
+	vertical-align: middle;
+	line-height: 50px;
+}
+a{
+	font-weight: normal;
+	color: #333;
+	text-decoration: none;
+}
+
+a:link {
+	font-weight: normal;
+	color: #333;
+	text-decoration: none;	
+}
+a:hover {
+	font-weight: normal;
+	color: #999;
+	text-decoration: none;
+}
+
+.piedepag {
+	font-size: 11px;
+	font-weight: normal;
+	color: #333;
+	text-align: center;
+	padding: 2px;
+	line-height: 22px;
+	font-family: tahoma, verdana, arial;
+}
+.notice {
+	font-size: 10px;
+	font-weight: normal;
+	color:#999;
+	text-align: center;
+	
+	line-height: 22px;
+	font-family: Arial;
+}
+.header {
+
+	font-size: 10px;
+	font-weight: normal;
+	color: #003366;
+	text-align: right;
+	padding: 2px;
+}
+.recordset_legajo {
+	font-size: 11px;
+	font-weight: normal;
+	color: #003399;
+	text-align: left;
+	padding: 2px;
+	font-style: normal;
+	text-decoration: none;
+}
+.recordset_nombre {
+	font-family: Verdana, Tahoma, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #333333;
+	text-align: left;
+	padding: 2px;
+	line-height: 18px;	
+	}
+	
+.textonegrita {
+	font-family: Arial;
+	font-size: 11px;
+	font-weight:bold;
+	color: #333333;
+}
+.textodetalle {
+	font-family: Geneva, Arial;
+	font-size: 12px;
+	font-weight: normal;
+	color: #333333;
+	line-height: 60px;
+}
+.titular_detalle {
+
+	font-family: Tahoma, Verdana, Tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	color: #333333;
+	text-indent: 4px;
+}
+
+.textoverde {
+	font-family: Tahoma, Verdana, Arial;
+	font-size: 11px;
+	font-weight: bold;
+	color: #336600;
+	text-indent: 4px;
+}
+
+.textoerror {
+	font-family: Arial;
+	font-size: 11px;
+	font-weight: bold;
+	color: #F00;
+
+}
+
+
+.texto_login {
+
+	font-family: Tahoma, Verdana, Arial;
+	font-size: 11px;
+	font-weight: bold;
+	color: #333;
+}
+
+.texto_legend {
+	font-family: Arial, Tahoma;
+	font-size: 12px;
+	font-weight: bold;
+	color: #036;
+}
+
+.texto {
+	font-family: Arial, tahoma;
+	font-size: 12px;
+	font-weight: bold;
+	color: #006600;
+}
+
+
+.item_menu {
+	font-family: Geneva, Verdana, Tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	color: #333333;
+	line-height: 20px;
+	text-indent: 5px;
+}
+a.linkimg:link{
+text-decoration: none;
+}
+a.linkimg:active{
+text-decoration: none;
+}
+a.linkimg:hover{
+text-decoration: none;
+}
+a.linkimg:visited{
+text-decoration: none;
+}.boton {
+
+	font-family: Geneva, Tahoma, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #333333;
+	text-align: center;
+	padding: 2px;
+}
+
+TABLE.login {
+	background-image : url(../images/login.gif);
+	background-repeat: repeat;
+	}	
+	
+.text_footer {
+	font-family:Tahoma, Verdana;
+	font-size:11px;
+	color:#666666;
+	font-weight: normal;
+	line-height: 28px;
+	background-position: center;
+}
+#pie_pagina {
+width: 100%;
+position: absolute;
+bottom: 0;
+bottom: 0px;
+height: 30px;
+}
+
+.div_flotante {
+	float: right;
+	position: static;
+	top: 14px;
+	left: 738px;
+	width: 223px;
+	height: 67px;
+}
+.boton {
+	background-color: #DDDDDD;
+	border-width: 1px solid #333;
+	padding: 3px;
+	color: #242424;
+	font-size: 12px;
+	font-family: Calibri, "Segoe UI", Tahoma;
+	cursor: hand;
+}
+
+
+.texto_det {
+
+font-size: 13px;
+font-weight: normal;
+color: #333;
+font-family: Calibri, calibri eot, "Segoe UI", Tahoma;
+}
+
+.texto_det_green {
+
+font-size: 13px;
+font-weight: normal;
+color: #360;
+font-family: Calibri, calibri eot, "Segoe UI", Tahoma;
+}
+.box {
+	font-family: Calibri, calibri eot, "Segoe UI", Tahoma;
+	color: #333;
+	font-size: 18px;
+	background-color: #FFFFF2;
+	font-weight: bold;
+	border: 1px solid #7E9DE5;
+}
+.box2 {
+	font-family: Calibri, calibri eot, "Segoe UI", Tahoma;
+	font-size: 14px;
+	color: #333;
+	background-color: #FFFFF2;
+	font-weight: normal;
+	border: 1px solid #7E9DE5;
+}

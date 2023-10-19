@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de copiar/pegar al portapapeles</title>
+    <style>
+        #main {
+            max-width: 750px;
+        }
+
+        .alert {
+            margin-top: 10px;
+        }
+
+        #ParaPegar {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="main" class="container-fluid">
+        <h1>Copiar al portapapeles con JavaScript</h1>
+        <pre id="textoACopiar" class="shadow p-3 mb-5 bg-white rounded"><code>
+<!DOCTYPE html>
+<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'><p style='font-size:11px;'><br></p>
+	<table border='0' cellspacing='0' cellpadding='0' bgcolor='#FFFFFF' rules='none'>
+	<tr>
+  <td height='16px' rowspan='8' align='center' valign='top'></td>
+  <td height='16px' style='font-family:Arial; font-size:12px; font-weight:bold; color:#333333;'>&nbsp;</td>
+</tr>
+<tr>
+  <td width='51' rowspan='8' align='center' valign='top'><img src="data:image/jpeg;base64,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"/></td>
+  <td height='16px' style='font-family:Arial; font-size:12px; font-weight:bold; color:#333333;'>Eduardo Javier Zarate</td>
+</tr>
+<tr>
+  <td height='14px' style='font-family:Arial; font-size:11px; font-weight:bold; color:#666666;'>Analista de Tecnología Informática</td>
+</tr>
+<tr>
+  <td height='12px' style='font-family:Arial; font-size:11px; color:#999999;'>Departamento de Sistemas</td>
+</tr>
+<tr>
+  <td style='font-family:Arial; font-size:11px; color:#999999;'><br>ALUAR ALUMINIO ARGENTINO S.A.I.C.<br>
+					Parque Industrial Pesado • U9120OIA<br>
+					Puerto Madryn • Chubut • Argentina<br>
+					Tel: +54 280 445-9000 - Ext. 3721<br>
+					E-mail: ezarate@aluar.com.ar<br>
+					</td>
+</tr>
+
+    <tr>
+      <td style='font-family:Arial; font-size:11px; color:#999999;' bgcolor='#FFFFFF'><span style='font-family:Arial; font-size:11px; font-weight:normal; color:#999999;'>Sede Social: Marcelo T. de Alvear 590, piso 3°, C.A.B.A.<br>
+	  R.P.C. Nro. 2534, L° 72, F° 151, T° "A" de Est. Nac., 26/06/1970</span></td>
+    </tr>
+    
+</table>
+
+
+
+
+        </code></pre>
+        <button id="btnCopiar" class="btn btn-primary">COPIAR párrafo al portapapeles</button>
+        <div id="alerta" class="alert invisible"></div>
+        <div><textarea id="ParaPegar" placeholder="Prueba a pegar algo aquí..."></textarea></div>
+    </div>
+
+    <script>
+        //Asigno el evento "click" del botón para provoar el copiado
+        document.getElementById('btnCopiar').addEventListener('click', copiarAlPortapapeles);
+
+        //Función que lanza el copiado del código
+        function copiarAlPortapapeles(ev) {
+            var codigoACopiar = document.getElementById('textoACopiar');    //Elemento a copiar
+            //Debe estar seleccionado en la página para que surta efecto, así que...
+            var seleccion = document.createRange(); //Creo una nueva selección vacía
+            seleccion.selectNodeContents(codigoACopiar);    //incluyo el nodo en la selección
+            //Antes de añadir el intervalo de selección a la selección actual, elimino otros que pudieran existir (sino no funciona en Edge)
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(seleccion);  //Y la añado a lo seleccionado actualmente
+            try {
+                var res = document.execCommand('copy'); //Intento el copiado
+                if (res)
+                    exito();
+                else
+                    fracaso();
+
+                mostrarAlerta();
+            }
+            catch (ex) {
+                excepcion();
+            }
+            window.getSelection().removeRange(seleccion);
+        }
+
+        //Detectar pegado (se puede hacer para toda la página interceptándolo en el documento o solo en elementos concretos, como es el caso)
+        document.getElementById('ParaPegar').addEventListener('paste', interceptarPegado);
+
+        function interceptarPegado(ev) {
+            alert('Has pegado el texto:' + ev.clipboardData.getData('text/plain'));
+        }
+
+        ///////
+        // Auxiliares para mostrar y ocultar mensajes
+        ///////
+        var divAlerta = document.getElementById('alerta');
+
+        function exito() {
+            divAlerta.innerText = '¡¡Código copiado al portapapeles!!';
+            divAlerta.classList.add('alert-success');
+        }
+
+        function fracaso() {
+            divAlerta.innerText = '¡¡Ha fallado el copiado al portapapeles!!';
+            divAlerta.classList.add('alert-warning');
+        }
+
+        function excepcion() {
+            divAlerta.innerText = 'Se ha producido un error al copiar al portapaples';
+            divAlerta.classList.add('alert-danger');
+        }
+
+        function mostrarAlerta() {
+            divAlerta.classList.remove('invisible');
+            divAlerta.classList.add('visible');
+            setTimeout(ocultarAlerta, 1500);
+        }
+
+        function ocultarAlerta() {
+            divAlerta.innerText = '';
+            divAlerta.classList.remove('alert-success', 'alert-warning', 'alert-danger', 'visible');
+            divAlerta.classList.add('invisible');
+        }
+    </script>
+</body>
+
+</html>
