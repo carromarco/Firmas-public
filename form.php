@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<head>
-<link href="css/personal.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-
 <?php
 
 include ("include/inc.define.php");
+
+echo "<link href='css/personal.css' rel='stylesheet' type='text/css'>";
+
+#print_r($_POST);
 
 if ($_POST['Comprobar'] == 'si')
 {
@@ -14,18 +12,21 @@ $dato_nu = trim ($_POST['legajo']);
 
 	if (!is_numeric($dato_nu))
 		{
-		echo "<fieldset><legend class='textonegrita'>Error&nbsp;&nbsp;</legend>
-		<span class='textoerror'><center>El legajo ingresado debe ser numérico, no puede incluir letras.</center></span>
-		</fieldset>";
+		echo "<table width='98%' border='0' cellspacing='0' cellpadding='0'>
+  		<tr>
+        <td><fieldset><legend class='textonegrita'>Error&nbsp;&nbsp;</legend>
+		<span class='textoerror'><center>El legajo ingresado debe ser numï¿½rico, no puede incluir letras.</center></span>
+		</fieldset></td>
+  		</tr>
+	  </table>";
 		}
 	else {
 			
 	$conn = oci_connect($usuario, $clave, $db10);
 							
-	$sql_met4 = OCIParse($conn,"select to_number(U.L_EMPLEADO_ALU) as LEGAJO, initcap (u.x_nombre) as NOMBRES, initcap (u.x_apellido) as APELLIDO, initcap (u.x_uo ) as DESC_COSTO,       -- initcap (u.x_unidad) as DESC_COSTO,  
-       u.c_div_empresa   as CTRO_TRAB, initcap( u.x_posicion ) as TAREA, initcap (u.x_uo) as N_UNIDAD, initcap(O.X_UO) as UNIDAD_JEFE,
-       initcap ( O.X_UO_SUP)  as UNIDAD_GCIA, v.email AS EMAIL, u.c_familia_fun as C_PUESTO, u.id_ctro_costo  as CTRO_COSTO       
-from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
+	$sql_met4 = OCIParse($conn,"select to_number(U.L_EMPLEADO_ALU) as LEGAJO, initcap (u.x_nombre) as NOMBRES, initcap (u.x_apellido) as APELLIDO, initcap (u.x_uo ) as DESC_COSTO, u.c_div_empresa   as CTRO_TRAB, initcap( u.x_posicion ) as TAREA, initcap (u.x_uo) as N_UNIDAD, initcap(O.X_UO) as UNIDAD_JEFE,
+    initcap ( O.X_UO_SUP)  as UNIDAD_GCIA, v.email AS EMAIL, u.c_familia_fun as C_PUESTO, u.id_ctro_costo  as CTRO_COSTO       
+		from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
        where U.L_EMPLEADO_ALU  = v.legajo
        and to_number(U.L_EMPLEADO_ALU) = '".$dato_nu."'
        and u.c_empresa  = 'ALUAR'
@@ -34,7 +35,6 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
        and (u.f_baja is null or u.f_baja > SYSDATE)
        and U.ID_DEPARTAMENTO = O.ID_UO");
 							
-
 	OCIDefineByName($sql_met4,"LEGAJO",$legajo);
 	OCIDefineByName($sql_met4,"NOMBRES",$nombres);
 	OCIDefineByName($sql_met4,"APELLIDO",$apellido);
@@ -60,14 +60,19 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 	@OCIFetch($sql_tel);
 	
 		if (!$legajo){ 
-		echo "<fieldset><legend class='textonegrita'>Error&nbsp;&nbsp;</legend>
-		<span class='textoerror'><center>El legajo ingresado es incorrecto.<br><br>Esto puede deberse a que ingresó un legajo inexistente o la cuenta asociada a ese legajo no esta dentro del grupo de usuarios autorizados.<br><br></center></span>
-		</fieldset>";
+
+		echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>
+  		<tr>
+        <td><fieldset><legend class='textonegrita'>Error</legend>
+		<span class='textoerror'><center>El legajo ingresado es incorrecto.<br><br>Esto puede deberse a que ingresï¿½ un legajo inexistente o la cuenta asociada a ese legajo no esta dentro del grupo de usuarios autorizados.<br><br></center></span>
+		</fieldset></td>
+  		</tr>
+		</table>";
+		
 		}
 		else {
 		
 		$nya = htmlentities($nombres, ENT_QUOTES)." ". htmlentities($apellido, ENT_QUOTES);
-		
 						
 		if (($tarea == "-") and (($ctro_trab == "MADRYNPRIM") or ($ctro_trab == "MADRYNSEMI"))) { $tarea = "Operador"; }
 						
@@ -77,9 +82,9 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 		$tarea = str_replace("Pcpal.", "", $tarea);
 		$tarea = str_replace("Ppal", "Pcpal.", $tarea);
 		$tarea = str_replace("Ctrol", "Control", $tarea);
-		$tarea = str_replace("Distribuc.", "Distribución", $tarea);
-		$tarea = str_replace("1° Cat.", "", $tarea);
-		$tarea = str_replace("2° Cat.", "", $tarea);
+		$tarea = str_replace("Distribuc.", "Distribuciï¿½n", $tarea);
+		$tarea = str_replace("1ï¿½ Cat.", "", $tarea);
+		$tarea = str_replace("2ï¿½ Cat.", "", $tarea);
 		
 		$tarea = str_replace("Adm.", "Admin.", $tarea);
 		$tarea = str_replace("Adm.", "Admin.", $tarea);
@@ -92,50 +97,44 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 		$tarea = str_replace("Coord ", "Coordinador ", $tarea);
 		$tarea = str_replace("Superv.", "Supervisor", $tarea);
 		$tarea = str_replace("Mant.", "Mantenimiento", $tarea);
-		$tarea = str_replace("Medico", "Médico", $tarea);
+		$tarea = str_replace("Medico", "Mï¿½dico", $tarea);
 		$tarea = str_replace("Serv Auxil", "Serv. Auxiliares", $tarea);
 		$tarea = str_replace("Industr.", "Industrial", $tarea);
-		$tarea = str_replace("Lider", "Líder", $tarea);
-		$tarea = str_replace("Electrico", "Eléctrico", $tarea);
-		$tarea = str_replace("Mecanico", "Mecánico", $tarea);
-		$tarea = str_replace("Tecnico", "Técnico", $tarea);
+		$tarea = str_replace("Lider", "Lï¿½der", $tarea);
+		$tarea = str_replace("Electrico", "Elï¿½ctrico", $tarea);
+		$tarea = str_replace("Mecanico", "Mecï¿½nico", $tarea);
+		$tarea = str_replace("Tecnico", "Tï¿½cnico", $tarea);
 		$tarea = str_replace("Redes", "Telecomunicaciones", $tarea);
 		$tarea = str_replace("Ingeniero En Telecomunicaciones", "Analista en Telecomunicaciones", $tarea);					
 		$tarea = str_replace("Compens.", "Compensaciones", $tarea);
 		$tarea = str_replace("Rrhh", "Recursos Humanos", $tarea);
 		$tarea = str_replace("Rrii", "Relaciones Industriales", $tarea);
-		
-		$tarea = str_replace("Code", "Conversión Eléctrica", $tarea);
-		$tarea = str_replace("Geel", "Generación Eléctrica", $tarea);
+		$tarea = str_replace("Instrumentacion", "Instrumentaciï¿½n", $tarea);
+		$tarea = str_replace("Code", "Conversiï¿½n Elï¿½ctrica", $tarea);
+		$tarea = str_replace("Geel", "Generaciï¿½n Elï¿½ctrica", $tarea);
 		$tarea = str_replace("Caii", "Control de Calidad", $tarea);
 		$tarea = str_replace("- Sistemas -", "de Sistemas", $tarea);
-		$tarea = str_replace("Facturacion", "Facturación", $tarea);
-		$tarea = str_replace("Informacion ", "Información ", $tarea);
-		$tarea = str_replace("Ingenieria", "Ingeniería", $tarea);
-		$tarea = str_replace("Gestion", "Gestión", $tarea);
-		$tarea = str_replace("Credito", "Crédito", $tarea);
-		$tarea = str_replace("Logistica", "Logística", $tarea);
-		
-		$tarea = str_replace("Produccion", "Producción", $tarea);
-		$tarea = str_replace("Expedicion", "Expedición", $tarea);
-		$tarea = str_replace("Recepcion", "Recepción", $tarea);
-		$tarea = str_replace("Economico", "Económico", $tarea);
-		$tarea = str_replace("Extrusion", "Extrusión", $tarea);
-		$tarea = str_replace("Reduccion", "Reducción", $tarea);
-		$tarea = str_replace("Energia", " Energía", $tarea);
-				
-		$tarea = str_replace("Administracion", "Administración", $tarea);
-		$tarea = str_replace("Planificacion", "Planificación", $tarea);
-				
-		$tarea = str_replace("Tecnologia", "Tecnología", $tarea);
-		$tarea = str_replace("Informatica", "Informática", $tarea);
-		
+		$tarea = str_replace("Facturacion", "Facturaciï¿½n", $tarea);
+		$tarea = str_replace("Informacion ", "Informaciï¿½n ", $tarea);
+		$tarea = str_replace("Ingenieria", "Ingenierï¿½a", $tarea);
+		$tarea = str_replace("Gestion", "Gestiï¿½n", $tarea);
+		$tarea = str_replace("Credito", "Crï¿½dito", $tarea);
+		$tarea = str_replace("Logistica", "Logï¿½stica", $tarea);
+		$tarea = str_replace("Produccion", "Producciï¿½n", $tarea);
+		$tarea = str_replace("Expedicion", "Expediciï¿½n", $tarea);
+		$tarea = str_replace("Recepcion", "Recepciï¿½n", $tarea);
+		$tarea = str_replace("Economico", "Econï¿½mico", $tarea);
+		$tarea = str_replace("Extrusion", "Extrusiï¿½n", $tarea);
+		$tarea = str_replace("Reduccion", "Reducciï¿½n", $tarea);
+		$tarea = str_replace("Energia", " Energï¿½a", $tarea);	
+		$tarea = str_replace("Administracion", "Administraciï¿½n", $tarea);
+		$tarea = str_replace("Planificacion", "Planificaciï¿½n", $tarea);	
+		$tarea = str_replace("Tecnologia", "Tecnologï¿½a", $tarea);
+		$tarea = str_replace("Informatica", "Informï¿½tica", $tarea);
 		$tarea = str_replace("Dpse", "Semielaborados", $tarea);
 		$tarea = str_replace("Dpse Ii", "Semielaborados II", $tarea);
-		$tarea = str_replace("Dpse I", "Semielaborados", $tarea);
-				
+		$tarea = str_replace("Dpse I", "Semielaborados", $tarea);	
 		$tarea = str_replace("Cctv", "Ctro. de Control de Video", $tarea);
-		
 		$tarea = str_replace(" De ", " de ", $tarea);
 		$tarea = str_replace(" Del ", " del ", $tarea);
 		$tarea = str_replace(" En ", " en ", $tarea);
@@ -144,15 +143,15 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 		$tarea = str_replace(" A ", " a ", $tarea);
 		$tarea = str_replace(" b ", " B ", $tarea);
 		$tarea = str_replace("Series a y B", "Series A y B", $tarea);
-		$tarea = str_replace("CoordinadorCapacitación", "Coordinador de Capacitación", $tarea);
-		$tarea = str_replace("CoordinadorGmp Manten. Electr./Electronico", "Coordinador de Mantenimiento Eléctrico", $tarea);
+		$tarea = str_replace("CoordinadorCapacitaciï¿½n", "Coordinador de Capacitaciï¿½n", $tarea);
+		$tarea = str_replace("CoordinadorGmp Manten. Electr./Electronico", "Coordinador de Mantenimiento Elï¿½ctrico", $tarea);
 		$tarea = str_replace("Telecomunicaciones, Proyectos e Infr.Telecom", "Telecomunicaciones", $tarea);
-		$tarea = str_replace("Juridicos", "Jurídicos", $tarea);
-		$tarea = str_replace("Almacen ", "Almacén ", $tarea);
-		$tarea = str_replace("Fundicion", "Fundición", $tarea);
+		$tarea = str_replace("Juridicos", "Jurï¿½dicos", $tarea);
+		$tarea = str_replace("Almacen ", "Almacï¿½n ", $tarea);
+		$tarea = str_replace("Fundicion", "Fundiciï¿½n", $tarea);
 		
 		if ($legajo == '23293'){ $tarea = "Analista en Telecomunicaciones"; }
-		if ($legajo == '22358'){ $tarea = "Analista de Tecnología Informática"; }
+		if ($legajo == '22358'){ $tarea = "Analista de Tecnologï¿½a Informï¿½tica"; }
 			
 		
 		$isjefe = strpos($c_puesto,'JEF');
@@ -163,38 +162,57 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 			else {
 			$jefeoasist = '0'; 
 			}
-			
 				
 		$directoPM = "Tel: +54 280 445-9000";
 		$direccionPM = "<br>ALUAR ALUMINIO ARGENTINO S.A.I.C.<br>
-					Parque Industrial Pesado • U9120OIA<br>
-					Puerto Madryn • Chubut • Argentina";
+					Parque Industrial Pesado ï¿½ U9120OIA<br>
+					Puerto Madryn ï¿½ Chubut ï¿½ Argentina";
 			
 		$directoSF = "Tel: +54 11 4725-8000";
 		$direccionSF = "<br>ALUAR ALUMINIO ARGENTINO S.A.I.C.<br>
-					Pasteur 4600 • B1644AMV<br>
-					Victoria • Buenos Aires • Argentina";
+					Pasteur 4600 ï¿½ B1644AMV<br>
+					Victoria ï¿½ Buenos Aires ï¿½ Argentina";
 		
 		$directoAB = "Tel: +54 11 4725-8000";
 		$direccionAB = "<br>ALUAR ALUMINIO ARGENTINO S.A.I.C.<br>
 					DIVISION ELABORADOS<BR>
-					Ruta Prov. 2 Km. 54 • B1933BWA<br>
-					Abasto • Buenos Aires • Argentina";
+					Ruta Prov. 2 Km. 54 ï¿½ B1933BWA<br>
+					Abasto ï¿½ Buenos Aires ï¿½ Argentina";
 		
 		$directoADE = "Tel: +54 11 4725-8000";
 		$direccionADE = "<br>ALUAR ALUMINIO ARGENTINO S.A.I.C.<br>
 					DIVISION ELABORADOS<BR>
-					Pasteur 4600 • B1644AMV<br>
-					Victoria • Buenos Aires • Argentina";
+					Pasteur 4600 ï¿½ B1644AMV<br>
+					Victoria ï¿½ Buenos Aires ï¿½ Argentina";
 		
 		$directoSS = "Tel: +54 11 4311-8911";
 		$direccionSS = "<br>ALUAR ALUMINIO ARGENTINO S.A.I.C.<br>
 					SEDE SOCIAL<BR>
-					Marcelo T. de Alvear 590, 3° Piso • C1058AAF<br>
-					Capital Federal • Buenos Aires • Argentina";
+					Marcelo T. de Alvear 590, 3ï¿½ Piso ï¿½ C1058AAF<br>
+					Capital Federal ï¿½ Buenos Aires ï¿½ Argentina";
 
 		if ($interno !=""){ $interno = " - Ext. ".$interno; }
-				
+		
+		# Se agrega para sacar de la descripcion de departamento el "SIST -" Dpto de Sistemas y quede solo "Dpto de Sistemas"
+		
+		$pos = strpos($n_unidad_jefe, '-');
+		
+		if ($pos == 5){
+		
+		$n_unidad_jefe = substr($n_unidad_jefe, 7);
+		
+		}
+		
+		# Se agrega para sacar de la descripcion de gerencia ej. GEAN -"
+		
+		$pos = strpos($n_unidad_gcia, '-');
+		
+		if ($pos == 5){
+		
+		$n_unidad_gcia = substr($n_unidad_gcia, 7);
+		
+		}
+		
 		$n_unidad_jefe = str_replace("A Y B", "A y B", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace(" A ", " a ", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace(" Al ", " al ", $n_unidad_jefe);
@@ -205,39 +223,44 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 		$n_unidad_jefe = str_replace(" Del ", " del ", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace(" Ii", "", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace("( Pmo )", "", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Direccion", "Dirección", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Direccion", "Direcciï¿½n", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace("Indust.", "Industrial", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Energia", " Energía", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Distribución Energía", "Distribución de Energía", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Generación Energía", "Generación de Energía", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Gerencia Investigación", "Gerencia de Investigación", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Energia", " Energï¿½a", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Ctrol ", "Control ", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Distribuciï¿½n Energï¿½a", "Distribuciï¿½n de Energï¿½a", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Generaciï¿½n Energï¿½a", "Generaciï¿½n de Energï¿½a", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Gerencia Investigaciï¿½n", "Gerencia de Investigaciï¿½n", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Gcia ", "Gcia. ", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Gcia. ", "Gerencia ", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace("Semielaborados 1", "Semielaborados", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace("Semielaborados 2", "Semielaborados II", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace("Sistemas Puerto Madryn", "de Sistemas", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Administracion", "Administración", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Administracion", "Administraciï¿½n", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace("Procedimiento", "Procedimientos", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Coordinacion", "Coordinación", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Planificacion", "Planificación", $n_unidad_jefe);
-		
+		$n_unidad_jefe = str_replace("Coordinacion", "Coordinaciï¿½n", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Planificacion", "Planificaciï¿½n", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace("Serv.", "Servicios", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Proteccion ", "Protección ", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Proteccion ", "Protecciï¿½n ", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace("Mantenim ", "Mantenimiento ", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace("Mantenim.", "Mantenimiento", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Gestion", "Gestión", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Credito", "Crédito", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Tecnic", "Técnic", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Economico", "Económico", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Extrusion", "Extrusión", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Atencion", "Atención", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Proc. de Reduccion", "Procesos de Reducción", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Rrhh", "RRHH", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Gestion", "Gestiï¿½n", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Credito", "Crï¿½dito", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Tecnic", "Tï¿½cnic", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Economico", "Econï¿½mico", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Extrusion", "Extrusiï¿½n", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Atencion", "Atenciï¿½n", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Proc. de Reduccion", "Procesos de Reducciï¿½n", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Electroquimicos", "Electroquï¿½micos", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Automacion", "Automaciï¿½n", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace("Depto ", "Dpto. ", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Logistica", "Logística", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Electrico", "Eléctrico", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Electronico", "Electrónico", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Tecnologia", "Tecnología", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Informatica", "Informática", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Juridico", "Jurídico", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Logistica", "Logï¿½stica", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Electrico", "Elï¿½ctrico", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Electronico", "Electrï¿½nico", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Tecnologia", "Tecnologï¿½a", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Informatica", "Informï¿½tica", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Instrumentacion", "Instrumentaciï¿½n", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Investigacion", "Investigaciï¿½n", $n_unidad_jefe);
+		$n_unidad_jefe = str_replace("Juridico", "Jurï¿½dico", $n_unidad_jefe);
 		$n_unidad_jefe = str_replace("Series a y B", "Series A y B", $n_unidad_jefe);
 								
 		if (strlen($n_unidad_jefe) < 40){
@@ -245,51 +268,48 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 		
 		if (strlen($n_unidad_jefe) > 40){
 		$n_unidad_jefe = str_replace("Gerencia", "Gcia.", $n_unidad_jefe);
-		$n_unidad_jefe = str_replace("Departamento","Dpto.", $n_unidad_jefe);	}
-				
+		$n_unidad_jefe = str_replace("Departamento","Dpto.", $n_unidad_jefe);	}		
+		
 		$n_unidad_gcia = str_replace(" Y ", " y ", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace(" E ", " e ", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace(" A ", " a ", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace(" De ", " de ", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace(" Del ", " del ", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Á", "A", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Analistas Sf", "Aplicaciones Comerciales y Logísticas", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Gerencia Investigación", "Gerencia de Investigación", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("ï¿½", "A", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Analistas Sf", "Aplicaciones Comerciales y Logï¿½sticas", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Gerencia Investigaciï¿½n", "Gerencia de Investigaciï¿½n", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Gerencia Planeamiento", "Gerencia de Planeamiento", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Planificacion", "Planificación", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Extrusion", "Extrusión", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Tecnic", "Técnic", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Tecnologia ", "Tecnología ", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Informatica", "Informática", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Informacion ", "Información ", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Direccion ", "Dirección ", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Gestion", "Gestión", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Facturacion ", "Facturación ", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Planificacion", "Planificaciï¿½n", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Extrusion", "Extrusiï¿½n", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Tecnic", "Tï¿½cnic", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Tecnologia ", "Tecnologï¿½a ", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Informatica", "Informï¿½tica", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Informacion ", "Informaciï¿½n ", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Investigacion", "Investigaciï¿½n", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Direccion ", "Direcciï¿½n ", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Gestion", "Gestiï¿½n", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Facturacion ", "Facturaciï¿½n ", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Mantenim.", "Mantenimiento", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Energeticos", "Energéticos", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Energeticos", "Energï¿½ticos", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Redes", "Proyectos e Infraestructura de Telecomunicaciones", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Redes, Proy. e Infraestruct. de Telecom.", "Proyectos e Infraestructura de Telecomunicaciones", $n_unidad_gcia);
-		
-		$n_unidad_gcia = str_replace("Administracion ", "Administración ", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Administracion ", "Administraciï¿½n ", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Desarr. de Prod.", "Desarrollo de Producto", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Serv. Comp. de Administ.", "Serv. Compartidos de Admin. del", $n_unidad_gcia);	
-		$n_unidad_gcia = str_replace("Energia", "Energía", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Energia", "Energï¿½a", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Depto ", "Dpto. ", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Depto ", "Dpto. ", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Gcia ", "Gcia. ", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Rrhh", "RRHH", $n_unidad_gcia);
-				
-		$n_unidad_gcia = str_replace("Administracion ", "Administración ", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Administracion ", "Administraciï¿½n ", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Desarr. de Prod.", "Desarrollo de Producto", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Serv. Comp. de Administ.", "Serv. Compartidos de Admin. del", $n_unidad_gcia);
-				
-		$n_unidad_gcia = str_replace("Energia", "Energía", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Energia", "Energï¿½a", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Depto ", "Dpto. ", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Gcia ", "Gcia. ", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Gcia. ", "Gerencia ", $n_unidad_gcia);
 		$n_unidad_gcia = str_replace("Rrhh", "RRHH", $n_unidad_gcia);
-		$n_unidad_gcia = str_replace("Juridico", "Jurídico", $n_unidad_gcia);
+		$n_unidad_gcia = str_replace("Juridico", "Jurï¿½dico", $n_unidad_gcia);
 				
-		
 		if (strlen($n_unidad_gcia) > 35){
 		$n_unidad_gcia = str_replace("Gerencia", "Gcia.", $n_unidad_gcia); }
 				
@@ -301,10 +321,9 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 		$desc_costo = str_replace("Dep.", "Departamento", $desc_costo);
 		$desc_costo = str_replace("Depto.", "Departamento", $desc_costo);
 		$desc_costo = str_replace("Depto", "Departamento", $desc_costo);
-		$desc_costo = str_replace("Coordinacion", "Coordinación", $desc_costo);
-		$desc_costo = str_replace("Direccion", "Dirección", $desc_costo);
+		$desc_costo = str_replace("Coordinacion", "Coordinaciï¿½n", $desc_costo);
+		$desc_costo = str_replace("Direccion", "Direcciï¿½n", $desc_costo);
 		$desc_costo = str_replace("Planeam ", "Planeamiento ", $desc_costo);
-				
 		$desc_costo = str_replace("Rr.Hh", "RRHH", $desc_costo);
 		$desc_costo = str_replace("Rrhh", "RRHH", $desc_costo);
 		$desc_costo = str_replace("( Pmo )", "PMO", $desc_costo);
@@ -312,33 +331,30 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 		$desc_costo = str_replace("ADE I", "ADE", $desc_costo);
 		$desc_costo = str_replace("Redes", "Proyectos e Infraestructura de Telecomunicaciones", $desc_costo);
 		$desc_costo = str_replace("Redes, Proy. e Infraestruct. de Telecom.", "Proyectos e Infraestructura de Telecomunicaciones", $desc_costo);
-			
-		 
 		$desc_costo = str_replace("Gcia.De", "Gcia. de", $desc_costo);
-		$desc_costo = str_replace("Lider de Tecnología", "Tecnología Informática", $desc_costo);
-		$desc_costo = str_replace("Extrusion", "Extrusión", $desc_costo);
-		$desc_costo = str_replace("Fundicion", "Fundición", $desc_costo);
-		$desc_costo = str_replace("Laminacion", "Laminación", $desc_costo);
-		$desc_costo = str_replace("Capacitacion", "Capacitación", $desc_costo);
-		$desc_costo = str_replace("Programacion", "Programación", $desc_costo);
-		$desc_costo = str_replace("Planificacion", "Planificación", $desc_costo);
-		$desc_costo = str_replace("Administracion", "Administración", $desc_costo);
-		$desc_costo = str_replace("Energia", "Energía", $desc_costo);
-		$desc_costo = str_replace("Energetico", "Energético", $desc_costo);
-		
+		$desc_costo = str_replace("Lider de Tecnologï¿½a", "Tecnologï¿½a Informï¿½tica", $desc_costo);
+		$desc_costo = str_replace("Extrusion", "Extrusiï¿½n", $desc_costo);
+		$desc_costo = str_replace("Fundicion", "Fundiciï¿½n", $desc_costo);
+		$desc_costo = str_replace("Laminacion", "Laminaciï¿½n", $desc_costo);
+		$desc_costo = str_replace("Capacitacion", "Capacitaciï¿½n", $desc_costo);
+		$desc_costo = str_replace("Programacion", "Programaciï¿½n", $desc_costo);
+		$desc_costo = str_replace("Planificacion", "Planificaciï¿½n", $desc_costo);
+		$desc_costo = str_replace("Administracion", "Administraciï¿½n", $desc_costo);
+		$desc_costo = str_replace("Investigacion", "Investigaciï¿½n", $desc_costo);
+		$desc_costo = str_replace("Energia", "Energï¿½a", $desc_costo);
+		$desc_costo = str_replace("Energetico", "Energï¿½tico", $desc_costo);
 		$desc_costo = str_replace("Mantenim ", "Mantenimiento ", $desc_costo);
-		$desc_costo = str_replace("Gestion", "Gestión", $desc_costo);
-		$desc_costo = str_replace("Tecnic", "Técnic", $desc_costo);
-		$desc_costo = str_replace("Economico", "Económico", $desc_costo);
-		$desc_costo = str_replace("Atencion", "Atención", $desc_costo);
-		$desc_costo = str_replace("Mecanico", "Mecánico", $desc_costo);
-		
+		$desc_costo = str_replace("Gestion", "Gestiï¿½n", $desc_costo);
+		$desc_costo = str_replace("Tecnic", "Tï¿½cnic", $desc_costo);
+		$desc_costo = str_replace("Economico", "Econï¿½mico", $desc_costo);
+		$desc_costo = str_replace("Atencion", "Atenciï¿½n", $desc_costo);
+		$desc_costo = str_replace("Mecanico", "Mecï¿½nico", $desc_costo);
 		$desc_costo = str_replace("Analistas Sf", "Aplicaciones Planta San Fernando", $desc_costo);
-		$desc_costo = str_replace("Tecnologia ", "Tecnología ", $desc_costo);
-		$desc_costo = str_replace("Informatica", "Informática", $desc_costo);
-		$desc_costo = str_replace("Facturacion", "Facturación", $desc_costo);
-		$desc_costo = str_replace("Juridico", "Jurídico", $desc_costo);
-		$n_unidad_gcia = str_replace("Logistica", "Logística", $n_unidad_gcia);
+		$desc_costo = str_replace("Tecnologia ", "Tecnologï¿½a ", $desc_costo);
+		$desc_costo = str_replace("Informatica", "Informï¿½tica", $desc_costo);
+		$desc_costo = str_replace("Facturacion", "Facturaciï¿½n", $desc_costo);
+		$desc_costo = str_replace("Juridico", "Jurï¿½dico", $desc_costo);
+		$n_unidad_gcia = str_replace("Logistica", "Logï¿½stica", $n_unidad_gcia);
 		
 		if (strlen($desc_costo) < 35){
 		$desc_costo = str_replace("Dpto.", "Departamento", $desc_costo); 	}
@@ -348,24 +364,14 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 		$desc_costo = str_replace("Departamento","Dpto.", $desc_costo);	}
 								
 	
-	echo "<fieldset style='width:97%;'>
-	<legend class='textonegrita' >Datos del solicitante:&nbsp;&nbsp;</legend>
-	<form name='firma' action='preview.php' method='POST' target='preview'>
+	echo "<fieldset style='width:98%;'>
+	<legend class='textonegrita' >Datos personales del solicitante</legend>
 	
-	<table width='100%' border='0' cellpadding='2' cellspacing='3'><tr>
-	<td width='8%' class='textoform' align='right'>Nombre:</td>
-	<td>";
+		<form name='firma' action='preview.php' method='POST' target='preview'>
 	
-	/*echo "<select name='titulo' size='1' class='box2' id='titulo' onchange='this.form.submit()'>
-	<option value='--' selected>--</option>
-	<option value='Arq.'>Arq.</option>
-	<option value='Cdr.'>Cdr.</option>
-	<option value='Cdra.'>Cdra.</option>
-	<option value='Dr.'>Dr.</option>
-	<option value='Dra.'>Dra.</option>
-	<option value='Ing.'>Ing.</option>
-	<option value='Lic.'>Lic.</option>
-	</select>";*/
+		<table width='100%' border='0' cellpadding='4' cellspacing='2'><tr>
+		<td width='8%' class='textoform' align='right'>Nombre:</td>
+		<td>";
 	
 	echo "<input name='nya' type='text' class='box2' id='nya' value='".$nya."' size='30' onchange='this.form.submit()'>
     <td width='10%' align='right' class='textoform'>Tel&eacute;fono:</td>        
@@ -415,21 +421,15 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 			if ($n_unidad_jefe <> NULL){
 			
 					if ($jefeoasist == '1'){
-				
 						echo "<option value ='$n_unidad_gcia'>".$n_unidad_gcia."</option>";
 						echo "<option value ='$n_unidad_jefe'>".$n_unidad_jefe."</option>";
-					
 					}
-					
 					else {
-					
 						echo "<option value ='$n_unidad_jefe'>".$n_unidad_jefe."</option>";
 						#echo "<option value ='$n_unidad_gcia'>".$n_unidad_gcia."</option>";
-					
 					}	
 			}
-			/*if (($n_unidad_gcia <> NULL) and ($n_unidad_gcia != $n_unidad_jefe)){
-									
+			/*if (($n_unidad_gcia <> NULL) and ($n_unidad_gcia != $n_unidad_jefe)){					
 				echo "<option value ='$n_unidad_gcia'>".$n_unidad_gcia."</option>";
 			}*/
 		
@@ -448,7 +448,7 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 		echo "</select>		
     </label>
 	</td>
-	<td width='10%' align='right' class='textoform'>Dirección:</td>
+	<td width='10%' align='right' class='textoform'>Direcciï¿½n:</td>
 	<td width='44%'>";
 	
 	if (($ctro_trab == "MADRYNPRIM") or ($ctro_trab == "MADRYNSEMI")) {
@@ -498,42 +498,44 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
         </select>";
 	}
 	
-	
 	echo"</td>
 	</tr>
 	<tr>
-	<td class='textoform' align='right'>Función:</td>
+	<td class='textoform' align='right'>Funciï¿½n:</td>
 	<td>
 	<input name='tarea' type='text' class='box2' id='tarea' value='$tarea' size='41' onchange='this.form.submit()'>
 	</td>
 	<td></td>
 	<td valign='middle'>";
 	
-	/*<select name='logo' id='logo' class='box2' onchange='this.form.submit()'>
-	      <option value ='1'>Aluar Aluminio Argentino</option>
-		  <option value ='2'>Aluar División Elaborados</option>
-        </select>*/
-	
 	echo "</td>
 	</tr>
 	<td height='35' colspan='4' align='center'>
 	
-	<input type='hidden' name='preview' id='preview' value='1'>
+	<input type='hidden' name='showpreview' id='showpreview' value=TRUE>
 	<input type='hidden' name='email' id='email' value='$email'>
 	<input type='hidden' name='legajo' id='legajo' value='$legajo'>
 	<input type='hidden' name='ctro_costo' id='ctro_costo' value='$ctro_costo'>	
 	<input name='button' type='submit' class='boton' value='Vista Previa'>
-    </td>
+    
+	</td>
 	</table>
-	</form></fieldset>";
+	</form></fieldset><br>";
 	
-	$vista_previa = "<fieldset>
-	<legend class='textonegrita'>Vista previa de la firma:&nbsp;&nbsp;</legend>
-	<IFRAME name ='preview' src='preview.php' width='100%' height='248' frameborder='0' scrolling='no' id='preview'></IFRAME>
+	# Frame de vista previa
+	
+	echo "<fieldset>
+	<legend class='textonegrita'>Vista previa de la firma</legend>
+	
+	<table width='100%' border='0' cellspacing='0' cellpadding='0'>
+  <tr>
+    <td width='45%'><IFRAME name ='preview' src='preview.php' width='100%' height='310' frameborder='0' scrolling='no' id='preview'></IFRAME></td>
+    <td width='55%'><IFRAME name ='info' src='ayuda.htm' width='100%' height='310' frameborder='0' scrolling='yes' id='preview'></IFRAME></td>
+  </tr>
+</table>
+	
 	</fielset>";
-
-	echo "<br>".$vista_previa;
-		
+	
 	OCIFreeStatement($sql_met4);
 	@OCILogOff($sql_met4);
 	
@@ -542,6 +544,3 @@ from NU0.temail v, SAPPI_TPERSONAL U, SAPPI_TORGANIGRAMA O
 }
 
 ?>
-
-</body>
-</html>
